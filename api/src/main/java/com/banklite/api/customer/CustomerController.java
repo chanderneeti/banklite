@@ -21,10 +21,6 @@ public class CustomerController {
         return service.get(id);
     }
 
-    public CustomerService getService() {
-        return service;
-    }
-
     @PostMapping ("/customers")
     public ResponseEntity<CustomerResponse> createCustomer(@Valid @RequestBody CreateCustomerRequest req) {
         CustomerResponse customerResponse = service.create(req);

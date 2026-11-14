@@ -5,12 +5,10 @@ import com.banklite.api.dto.CreateAccountRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api")
@@ -22,5 +20,15 @@ public class AccountController {
     public ResponseEntity<AccountResponse> open(@Valid @RequestBody CreateAccountRequest req)  {
         AccountResponse accountResponse = accountService.open(req);
         return ResponseEntity.created(URI.create("/api/accounts/" +accountResponse.id())).body(accountResponse);
+    }
+
+    @GetMapping ("/accounts/{id}")
+    public AccountResponse get (@PathVariable Long id) {
+        return accountService.get(id);
+    }
+
+    @GetMapping ("/accounts")
+    public List<AccountResponse> getByCustomerId (@RequestParam Long customerId) {
+        return accountService.forCustomer(customerId);
     }
 }
